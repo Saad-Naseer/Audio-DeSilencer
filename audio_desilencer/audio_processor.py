@@ -4,9 +4,9 @@ from pydub import AudioSegment
 from pydub.silence import detect_nonsilent
 
 class AudioProcessor:
-    def __init__(self, input_file_path):
+    def __init__(self, input_file_path, format):
         self.input_file_path = input_file_path
-        self.audio = AudioSegment.from_file(input_file_path, format="mp3")
+        self.audio = AudioSegment.from_file(input_file_path, format=format)
 
     def split_audio_by_silence(self, min_silence_len, threshold):
         return detect_nonsilent(self.audio, min_silence_len=min_silence_len, silence_thresh=threshold)
@@ -68,16 +68,9 @@ class AudioProcessor:
             print("An error occurred:", str(e))
 
 def main():
-    parser = argparse.ArgumentParser(description="Audio processing script")
-    parser.add_argument("input_file", help="Input audio file path")
-    parser.add_argument("--output_folder", default="output", help="Output folder path")
-    parser.add_argument("--min_silence_len", type=int, default=100, help="Minimum silence length (in milliseconds)")
-    parser.add_argument("--threshold", type=int, default=-30, help="Silence threshold in dBFS")
-
-    args = parser.parse_args()
-
-    audio_processor = AudioProcessor(args.input_file)
-    audio_processor.process_audio(min_silence_len=args.min_silence_len, threshold=args.threshold, output_folder=args.output_folder)
+    
+    audio_processor = AudioProcessor(input_file, fromat)
+    audio_processor.process_audio(min_silence_len=100, threshold=-60, output_folder='output')
 
 if __name__ == "__main__":
     main()
